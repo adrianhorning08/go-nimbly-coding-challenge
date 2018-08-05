@@ -34919,17 +34919,53 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
+var _Test = __webpack_require__(/*! ./components/Test */ "./src/components/Test.jsx");
+
+var _Test2 = _interopRequireDefault(_Test);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
   return _react2.default.createElement(
     'div',
     { id: 'page' },
-    'It works'
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Test2.default })
   );
 };
 
 exports.default = App;
+
+/***/ }),
+
+/***/ "./src/components/Test.jsx":
+/*!*********************************!*\
+  !*** ./src/components/Test.jsx ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Test = function Test() {
+  return _react2.default.createElement(
+    'p',
+    null,
+    'This is a test'
+  );
+};
+
+exports.default = Test;
 
 /***/ }),
 
