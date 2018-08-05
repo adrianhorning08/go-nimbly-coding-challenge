@@ -1,0 +1,13 @@
+.main-section-container {
+  display: flex;
+  justify-content: center;
+}
+
+.main-section {
+  margin: -116px 0 0 -20px;
+  background: #fff;
+  width: 900px;
+  height: 500px;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0,0,0,.07), 0 0 15px rgba(0,0,0,.05);
+}

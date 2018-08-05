@@ -34913,6 +34913,55 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _MainSection = __webpack_require__(/*! ./components/MainSection */ "./src/components/MainSection.jsx");
+
+var _MainSection2 = _interopRequireDefault(_MainSection);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App() {
+  return _react2.default.createElement(
+    'div',
+    { id: 'page' },
+    _react2.default.createElement(
+      'header',
+      null,
+      _react2.default.createElement(
+        'h1',
+        null,
+        'CHECK THE WEATHER'
+      )
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'main-section-container' },
+      _react2.default.createElement(_MainSection2.default, null)
+    )
+  );
+};
+
+exports.default = App;
+
+/***/ }),
+
+/***/ "./src/components/MainSection.jsx":
+/*!****************************************!*\
+  !*** ./src/components/MainSection.jsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -34929,31 +34978,39 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var App = function (_React$Component) {
-  _inherits(App, _React$Component);
+var MainSection = function (_React$Component) {
+  _inherits(MainSection, _React$Component);
 
-  function App(props) {
-    _classCallCheck(this, App);
+  function MainSection(props) {
+    _classCallCheck(this, MainSection);
 
-    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (MainSection.__proto__ || Object.getPrototypeOf(MainSection)).call(this, props));
 
     _this.state = {
-      results: null
+      location: '',
+      forecast: null,
+      locationId: null
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.update = _this.update.bind(_this);
+    _this.fetchLocationId = _this.fetchLocationId.bind(_this);
+    _this.fetchLocationWeatherData = _this.fetchLocationWeatherData.bind(_this);
     return _this;
   }
 
-  _createClass(App, [{
-    key: "componentDidMount",
+  _createClass(MainSection, [{
+    key: 'fetchLocationId',
     value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var results, data;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(locationName) {
+        var _this2 = this;
+
+        var results, data, city;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return fetch("/api");
+                return fetch('/api/locationName/' + locationName);
 
               case 2:
                 results = _context.sent;
@@ -34962,43 +35019,114 @@ var App = function (_React$Component) {
 
               case 5:
                 data = _context.sent;
+                city = data[0];
 
-                console.log(data);
+                this.setState({ location: city.title, locationId: city.woeid }, function () {
+                  _this2.fetchLocationWeatherData(_this2.state.locationId);
+                });
 
-              case 7:
-              case "end":
+              case 8:
+              case 'end':
                 return _context.stop();
             }
           }
         }, _callee, this);
       }));
 
-      function componentDidMount() {
+      function fetchLocationId(_x) {
         return _ref.apply(this, arguments);
       }
 
-      return componentDidMount;
+      return fetchLocationId;
     }()
   }, {
-    key: "render",
+    key: 'fetchLocationWeatherData',
+    value: function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(locationId) {
+        var _this3 = this;
+
+        var results, data;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return fetch('/api/locationId/' + locationId);
+
+              case 2:
+                results = _context2.sent;
+                _context2.next = 5;
+                return results.json();
+
+              case 5:
+                data = _context2.sent;
+
+                this.setState({ forecast: data.consolidated_weather }, function () {
+                  return console.log(_this3.state);
+                });
+
+              case 7:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchLocationWeatherData(_x2) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return fetchLocationWeatherData;
+    }()
+  }, {
+    key: 'update',
+    value: function update() {
+      var _this4 = this;
+
+      return function (e) {
+        _this4.setState({ location: e.target.value });
+      };
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      e.preventDefault;
+      this.fetchLocationId(this.state.location);
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { id: "page" },
+        'div',
+        { className: 'main-section' },
         _react2.default.createElement(
-          "header",
-          null,
-          "this is the header"
-        ),
-        "this is the rest of the page"
+          'form',
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement(
+            'label',
+            null,
+            'Enter a City',
+            _react2.default.createElement('input', {
+              type: 'text',
+              value: this.state.location,
+              onChange: this.update()
+            })
+          ),
+          _react2.default.createElement(
+            'button',
+            null,
+            'Submit'
+          )
+        )
       );
     }
   }]);
 
-  return App;
+  return MainSection;
 }(_react2.default.Component);
 
-exports.default = App;
+exports.default = MainSection;
 
 /***/ }),
 

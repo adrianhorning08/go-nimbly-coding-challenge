@@ -1,29 +1,15 @@
 import React from 'react';
+import MainSection from './components/MainSection';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      results: null
-    };
-  }
-
-  async componentDidMount() {
-    const results = await fetch("/api");
-    const data = await results.json();
-    console.log(data);
-  }
-
-  render() {
-    return (
-      <div id="page">
-        <header>
-          this is the header
-        </header>
-        this is the rest of the page
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div id="page">
+    <header>
+      <h1>CHECK THE WEATHER</h1>
+   </header>
+   <div className="main-section-container">
+     <MainSection />
+   </div>
+ </div>
+);
 
 export default App;
